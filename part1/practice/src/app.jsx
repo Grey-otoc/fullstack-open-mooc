@@ -1,47 +1,39 @@
 import { useState } from "react"
 
-const Display = ({counter}) => <div>{counter}</div>
+const History = (props) => {
+    if (props.allClicks.length === 0) {
+        return (
+            <div>
+                the app is used by pressing the buttons
+            </div>
+        )
+    }
 
-const Button = (props) => {
     return (
-        <button onClick={props.onClick}>
-            {props.text}
-        </button>
+        <div>
+            button press history: {props.allClicks.join(" ")}
+        </div>
+    )
+}
+
+const Button = ({ onClick, text }) => {
+    return (
+        <button onClick={onClick}>{text}</button>
     )
 }
 
 const App = () => {
-    const [counter, setCounter] = useState(0)
-    console.log("rendering with counter value", counter)
+    const [allClicks, setAll] = useState([])
 
-    const increaseByOne = () => {
-        console.log("increasing, value before:", counter)
-        setCounter(counter + 1)
+    const handleClick = (letter) => {
+        setAll(allClicks.concat(letter))
     }
-    const decreaseByOne = () => {
-        console.log("decreasing, value before:", counter)
-        setCounter(counter - 1)
-    }
-    const reset = () => {
-        console.log("resetting, value before:", counter)
-        setCounter(0)
-    }
-    
+
     return (
         <div>
-            <Display counter={counter}/>
-            <Button 
-                text="add one"
-                onClick={increaseByOne}
-            />
-            <Button 
-                text="subtract one" 
-                onClick={decreaseByOne}
-            />
-            <Button 
-                text="reset" 
-                onClick={reset}
-            />
+            <Button onClick={() => handleClick("L")} text="left" />
+            <Button onClick={() => handleClick("R")} text="right" />
+            <History allClicks={allClicks}/>
         </div>
     )
 }
