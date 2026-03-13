@@ -14,11 +14,27 @@ const Button = ({ onClick, text }) => {
   )
 }
 
-const Statistics = ({ value, text }) => {
+const StatisticLine = ({ all, value, text }) => {
   const includePercent = text === "positive" ? "%" : ""
-  return (
-    <div>{text} {value}{includePercent}</div>
-  )
+
+  if (all != 0) {
+    return (
+      <tr>
+        <td>{text}</td>
+        <td>
+          {value}{includePercent}
+        </td>
+      </tr>
+    )
+  }
+}
+
+const DefaultStatistics = ({ all }) => {
+  if (all === 0) {
+    return (
+      <div>No feedback given</div>
+    )
+  }
 }
 
 const App = () => {
@@ -44,12 +60,17 @@ const App = () => {
       <Button onClick={() => handleIncrementClick(setNeutral)} text="neutral"/>
       <Button onClick={() => handleIncrementClick(setBad)} text="bad"/>
       <Header text="statistics"/>
-      <Statistics value={good} text="good"/>
-      <Statistics value={neutral} text="neutral"/>
-      <Statistics value={bad} text="bad"/>
-      <Statistics value={all} text="all"/>
-      <Statistics value={avg} text="average"/>
-      <Statistics value={posi} text="positive"/>
+      <DefaultStatistics all={all} />
+      <table>
+        <tbody>
+          <StatisticLine all={all} value={good} text="good"/>
+          <StatisticLine all={all} value={neutral} text="neutral"/>
+          <StatisticLine all={all} value={bad} text="bad"/>
+          <StatisticLine all={all} value={all} text="all"/>
+          <StatisticLine all={all} value={avg} text="average"/>
+          <StatisticLine all={all} value={posi} text="positive"/>
+        </tbody>
+      </table>
     </div>
   )
 }
